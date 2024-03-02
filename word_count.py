@@ -51,7 +51,7 @@ def count_words2(dataframe):
 
 def save_output(dataframe, output_filename):
     """Save output to a file."""
-    dataframe.to_csv(output_filename, sep='\t', index=True, header=False)
+    dataframe.to_csv(output_filename, sep='\t', index=True, header=None)
     
 #
 # Escriba la función job, la cual orquesta las funciones anteriores.
