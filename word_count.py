@@ -41,7 +41,7 @@ def clean_text(dataframe):
 #     return dataframe.groupby(['text'], as_index=False)[['count']].sum().sort_values('count', ascending=False)
 
 
-def count_words2(dataframe):
+def count_words(dataframe):
     """Word count"""
     
     dataframe = dataframe.copy()
@@ -51,7 +51,7 @@ def count_words2(dataframe):
 
 def save_output(dataframe, output_filename):
     """Save output to a file."""
-    dataframe.to_csv(output_filename, sep='\t', index=True, header=None)
+    dataframe.to_csv(output_filename, sep='\t', index=True, header=False)
     
 #
 # Escriba la función job, la cual orquesta las funciones anteriores.
@@ -62,7 +62,7 @@ def run(input_directory, output_filename):
     
     df = load_input(input_directory)
     df = clean_text(df)
-    df = count_words2(df)
+    df = count_words(df)
     save_output(df, output_filename)
 
 if __name__ == "__main__":
