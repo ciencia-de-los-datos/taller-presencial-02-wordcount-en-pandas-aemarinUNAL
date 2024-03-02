@@ -43,7 +43,7 @@ def clean_text(dataframe):
 #     return dataframe.groupby(['text'], as_index=False)[['count']].sum().sort_values('count', ascending=False)
 
 
-def count_words_(dataframe):
+def count_words2(dataframe):
     """Word count"""
     
     dataframe=dataframe.copy()
@@ -66,7 +66,7 @@ def run(input_directory, output_filename):
     
     df = load_input(input_directory)
     df = clean_text(df)
-    df = count_words_(df)
+    df = count_words2(df)
     save_output(df, output_filename)
 
 if __name__ == "__main__":
