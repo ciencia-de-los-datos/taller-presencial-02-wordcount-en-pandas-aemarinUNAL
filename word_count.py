@@ -12,12 +12,12 @@ def load_input(input_directory):
     # un DataFrame de Pandas. Cada línea del archivo de texto debe ser una
     # entrada en el DataFrame.
     #
-    filenames = glob.glob(f'{input_directory}\*.txt')
-    dfs = [
-        pd.read_csv(filename, sep='\t', header=None, names=['text']) for filename in filenames
-    ]
-    
-    concatenated_df = pd.concat(dfs, ignore_index=True)
+    filenames =glob.glob(f"{input_directory}/*.txt")
+    dataframes =  [
+        pd.read_csv(filename, sep="\t", header=None, names=["text"])
+        for filename in filenames
+    ]  
+    concatenated_df = pd.concat(dataframes, ignore_index=True)
     return concatenated_df
     
 
@@ -26,8 +26,10 @@ def clean_text(dataframe):
     #
     # Elimine la puntuación y convierta el texto a minúsculas.
     #
-    dataframe = dataframe.copy()
-    dataframe['text'] = dataframe.text.str.lower().str.replace('.','').str.replace(',','')
+    dataframe=dataframe.copy()
+    dataframe["text"] = dataframe["text"].str.lower() 
+    dataframe["text"] = dataframe["text"].str.replace(".","")
+    dataframe["text"] = dataframe["text"].str.replace(",","")
     return dataframe
 
 
@@ -41,17 +43,19 @@ def clean_text(dataframe):
 #     return dataframe.groupby(['text'], as_index=False)[['count']].sum().sort_values('count', ascending=False)
 
 
-def count_words2(dataframe):
+def count_words_(dataframe):
     """Word count"""
     
-    dataframe = dataframe.copy()
-    dataframe['text'] = dataframe.text.str.split()
-    return dataframe.explode('text').text.value_counts()
+    dataframe=dataframe.copy()
+    dataframe["text"] = dataframe["text"].str.split() 
+    dataframe = dataframe.explode("text") 
+    dataframe =dataframe["text"].value_counts()
+    return dataframe
 
 
 def save_output(dataframe, output_filename):
     """Save output to a file."""
-    dataframe.to_csv(output_filename, sep='\t', index=True, header=None)
+    dataframe.to_csv(output_filename, sep='\t', index=True, header=False)
     
 #
 # Escriba la función job, la cual orquesta las funciones anteriores.
@@ -62,7 +66,7 @@ def run(input_directory, output_filename):
     
     df = load_input(input_directory)
     df = clean_text(df)
-    df = count_words2(df)
+    df = count_words_(df)
     save_output(df, output_filename)
 
 if __name__ == "__main__":
